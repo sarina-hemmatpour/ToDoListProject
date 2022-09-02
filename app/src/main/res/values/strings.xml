@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ToDoListProject</string>
+    <string name="main_tv_tasksList">لیست وظایف</string>
+    <string name="search">جست و جو</string>
+</resources>
