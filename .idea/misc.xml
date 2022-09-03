@@ -4,11 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/almas/AndroidStudioProjects/ToDoListProject/app/src/main/res/drawable/background_appbar.xml" value="0.1" />
+        <entry key="..\:/Users/almas/AndroidStudioProjects/ToDoListProject/app/src/main/res/drawable/background_dialog_task.xml" value="0.111" />
         <entry key="..\:/Users/almas/AndroidStudioProjects/ToDoListProject/app/src/main/res/drawable/background_et_search.xml" value="0.1" />
         <entry key="..\:/Users/almas/AndroidStudioProjects/ToDoListProject/app/src/main/res/drawable/background_item_task.xml" value="0.1075" />
         <entry key="..\:/Users/almas/AndroidStudioProjects/ToDoListProject/app/src/main/res/drawable/item_task.xml" value="0.1075" />
         <entry key="..\:/Users/almas/AndroidStudioProjects/ToDoListProject/app/src/main/res/font/font.xml" value="0.18888888888888888" />
         <entry key="..\:/Users/almas/AndroidStudioProjects/ToDoListProject/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/almas/AndroidStudioProjects/ToDoListProject/app/src/main/res/layout/dialog.xml" value="0.25" />
         <entry key="..\:/Users/almas/AndroidStudioProjects/ToDoListProject/app/src/main/res/layout/item_task.xml" value="0.25" />
       </map>
     </option>
