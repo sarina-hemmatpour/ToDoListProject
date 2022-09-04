@@ -12,11 +12,13 @@
     android:layout_marginBottom="4dp">
 
     <CheckBox
+        android:id="@+id/chb_taskItem_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="انجام تسک"/>
 
     <ImageView
+        android:id="@+id/img_taskItem_remove"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_gravity="end|center_vertical"

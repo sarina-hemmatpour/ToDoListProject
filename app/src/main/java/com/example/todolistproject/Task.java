@@ -11,6 +11,11 @@ public class Task {
         this.isDone = isDone;
     }
 
+    public Task(String title, boolean isDone) {
+        this.title = title;
+        this.isDone = isDone;
+    }
+
     public long getId() {
         return id;
     }
