@@ -68,6 +68,15 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Sav
                 addTaskDialog.show(getSupportFragmentManager() , null);
             }
         });
+
+        View btnClear=findViewById(R.id.btn_main_clearAll);
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                taskDBHelper.clearAllTasks();
+                adapter.clearList();
+            }
+        });
     }
 
     @Override
@@ -77,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Sav
         {
             task.setId(id);
             adapter.addTask(task);
-            rvTaskList.scrollToPosition(0);
         }
         else {
             Log.e(TAG, "add Error" );

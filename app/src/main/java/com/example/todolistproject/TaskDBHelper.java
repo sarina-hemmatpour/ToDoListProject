@@ -135,9 +135,16 @@ public class TaskDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public void deleteAllTasks()
+    public void clearAllTasks()
     {
-
+        try {
+            SQLiteDatabase sqLiteDatabase=getWritableDatabase();
+            sqLiteDatabase.execSQL("DELETE FROM "+TABLE_TASK_NAME);
+            sqLiteDatabase.close();
+        }catch (SQLException e)
+        {
+            Log.e(TAG, "clearAllTasksError: " +e.getMessage() );
+        }
     }
 
 }

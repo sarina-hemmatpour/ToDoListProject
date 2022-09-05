@@ -1,5 +1,7 @@
 package com.example.todolistproject;
 
+import android.annotation.SuppressLint;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,11 +54,32 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         public void bindItem(int i){
             chbTask.setText(tasks.get(i).getTitle());
+
+            //Solution =>
+            chbTask.setOnCheckedChangeListener(null);
             chbTask.setChecked(tasks.get(i).isDone());
+            // methode setChecked(), setOnCheckedChangeListener() ro call mikone va baes mishe bade scrol kardan moshkel pish biyad
+
+            if (chbTask.isChecked())
+            {
+                chbTask.setPaintFlags(chbTask.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+            else
+            {
+                chbTask.setPaintFlags(chbTask.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+            }
+
             chbTask.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     eventListener.onCheckBoxClicked(tasks.get(i));
+                    if (b)
+                    {
+                        chbTask.setPaintFlags(chbTask.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    }
+                    else {
+                        chbTask.setPaintFlags(chbTask.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+                    }
                 }
             });
             imgRemove.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +138,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
 
         notifyItemRemoved(pos);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void clearList()
+    {
+        tasks.clear();
+        notifyDataSetChanged();
     }
 
     public interface TaskItemEventListener{
