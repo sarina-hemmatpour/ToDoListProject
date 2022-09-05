@@ -5,10 +5,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements AddTaskDialog.SaveTaskCallBack  , EditTaskDialog.SaveEditCallBack {
 
@@ -77,6 +82,36 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Sav
                 adapter.clearList();
             }
         });
+
+        //search
+        EditText etSearch=findViewById(R.id.et_main_search);
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                if (etSearch.length()>0)
+                {
+                    ArrayList<Task> tasks=taskDBHelper.searchInTasks(etSearch.getText().toString().trim());
+                    adapter.setTasks(tasks);
+                }
+                else
+                {
+                    adapter.setTasks(taskDBHelper.getTasks());
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
     }
 
     @Override

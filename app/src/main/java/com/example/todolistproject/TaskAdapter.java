@@ -99,6 +99,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void setTasks(ArrayList<Task> tasks)
+    {
+        this.tasks=tasks;
+        notifyDataSetChanged();
+    }
+
     public void addTask(Task task){
         tasks.add(task);
         notifyItemInserted(tasks.size()-1);

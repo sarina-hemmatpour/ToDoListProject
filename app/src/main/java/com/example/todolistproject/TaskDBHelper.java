@@ -131,7 +131,30 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return result;
     }
-    public void searchInTasks(String string){
+
+    //LOCAL SEARCH
+    public ArrayList<Task> searchInTasks(String query){
+        SQLiteDatabase sqLiteDatabase=getReadableDatabase();
+        Cursor cursor=sqLiteDatabase.rawQuery("SELECT * FROM " +TABLE_TASK_NAME + " WHERE title LIKE '%"+query+"%'", null);
+
+        int idIndex=cursor.getColumnIndex(KEY_ID);
+        int titleIndex=cursor.getColumnIndex(KEY_TITLE);
+        int doneIndex=cursor.getColumnIndex(KEY_IS_DONE);
+
+        ArrayList<Task> tasks=new ArrayList<>();
+
+        //true if table is full
+        if (cursor.moveToFirst()){
+            do {
+                Task task=new Task(cursor.getInt(idIndex) , cursor.getString(titleIndex) ,
+                        cursor.getInt(doneIndex)==1);
+                tasks.add(task);
+            }while (cursor.moveToNext());
+        }
+
+        sqLiteDatabase.close();
+
+        return tasks;
 
     }
 
