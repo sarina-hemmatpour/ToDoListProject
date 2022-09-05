@@ -14,20 +14,20 @@
         android:textColor="@color/black"
         android:textStyle="bold"/>
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/etLayout_dialog_title"
+        android:id="@+id/etLayout_addDialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="@string/dialog_title"
         android:layout_marginTop="8dp">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_dialog_title"
+            android:id="@+id/et_addDialog_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_dialog_save"
+        android:id="@+id/btn_addDialog_save"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:backgroundTint="@color/colorAccent"

@@ -6,21 +6,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.Objects;
+public class EditTaskDialog extends DialogFragment {
 
-public class TaskDialog extends DialogFragment {
+    private SaveEditCallBack callBack;
+    private Task editTask;
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        callBack=(SaveEditCallBack) context;
+        editTask=getArguments().getParcelable("task");
+    }
 
     @Nullable
     @Override
@@ -29,35 +34,31 @@ public class TaskDialog extends DialogFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    private SaveTaskCallBack callBack;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        callBack=(SaveTaskCallBack) context;
-    }
-
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
         AlertDialog.Builder builder=new AlertDialog.Builder(requireContext());
-        View view=LayoutInflater.from(getContext()).inflate(R.layout.dialog , null , false);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.edit_dialog , null , false);
         builder.setView(view);
 
-        TextInputEditText etTitle=view.findViewById(R.id.et_dialog_title);
-        TextInputLayout inputLayout=view.findViewById(R.id.etLayout_dialog_title);
+        TextInputEditText etTitle=view.findViewById(R.id.et_editDialog_title);
+        TextInputLayout inputLayout=view.findViewById(R.id.etLayout_editDialog_title);
 
-        View btnSave=view.findViewById(R.id.btn_dialog_save);
+        etTitle.setText(editTask.getTitle());
+
+        View btnSave=view.findViewById(R.id.btn_editDialog_save);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(etTitle.length()>0)
                 {
-                    callBack.onSaveCallBack(new Task(etTitle.getText().toString().trim() , false));
+                    editTask.setTitle(etTitle.getText().toString().trim());
+                    callBack.onSaveEditCallBack(editTask);
                     dismiss();
                 }
                 else {
-                    inputLayout.setError("لطفا هنوان را وارد کنید");
+                    inputLayout.setError("لطفا عنوان را وارد کنید");
                 }
             }
         });
@@ -65,10 +66,16 @@ public class TaskDialog extends DialogFragment {
         return builder.create();
     }
 
-    interface SaveTaskCallBack{
-        void onSaveCallBack(Task task);
+    interface SaveEditCallBack {
+        void onSaveEditCallBack(Task task);
     }
 
+    public static EditTaskDialog newInstance(Task task) {
 
-
+        Bundle args = new Bundle();
+        args.putParcelable("task" , task);
+        EditTaskDialog fragment = new EditTaskDialog();
+        fragment.setArguments(args);
+        return fragment;
+    }
 }

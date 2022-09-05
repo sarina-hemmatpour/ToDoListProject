@@ -48,22 +48,28 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             super(itemView);
             chbTask=itemView.findViewById(R.id.chb_taskItem_task);
             imgRemove=itemView.findViewById(R.id.img_taskItem_remove);
-
         }
 
         public void bindItem(int i){
             chbTask.setText(tasks.get(i).getTitle());
             chbTask.setChecked(tasks.get(i).isDone());
-//            chbTask.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                    eventListener.onCheckBoxClicked(tasks.get(i));
-//                }
-//            });
+            chbTask.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    eventListener.onCheckBoxClicked(tasks.get(i));
+                }
+            });
             imgRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     eventListener.onDeleteButtonClicked(tasks.get(i));
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    eventListener.onItemLongPressed(tasks.get(i));
+                    return false;
                 }
             });
         }
@@ -71,26 +77,26 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     public void addTask(Task task){
-        tasks.add(0,task);
-        notifyItemInserted(0);
+        tasks.add(task);
+        notifyItemInserted(tasks.size()-1);
     }
-//    public void editTask(Task task){
-//        int pos=-1;
-//        for (int i = 0; i < tasks.size(); i++) {
-//            if (tasks.get(i).getId()==task.getId())
-//            {
-//                pos=i;
-//                break;
-//            }
-//        }
-//
-//        if (pos>-1)
-//        {
-//            tasks.get(pos).setDone(task.isDone());
-//        }
-//
-//        notifyItemChanged(pos);
-//    }
+    public void editTask(Task task){
+        int pos=-1;
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).getId()==task.getId())
+            {
+                pos=i;
+                break;
+            }
+        }
+
+        if (pos>-1)
+        {
+            tasks.set(pos , task);
+        }
+
+        notifyItemChanged(pos);
+    }
 
     public void deleteTask(Task task)
     {
@@ -112,7 +118,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     public interface TaskItemEventListener{
-//        void onCheckBoxClicked(Task task);
+        void onItemLongPressed(Task task);
+        void onCheckBoxClicked(Task task);
         void onDeleteButtonClicked(Task task);
     }
 
