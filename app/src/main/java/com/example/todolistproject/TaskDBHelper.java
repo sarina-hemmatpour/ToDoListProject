@@ -81,8 +81,9 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         //true if table is full
         if (cursor.moveToFirst()){
             do {
-                Task task=new Task(cursor.getInt(idIndex) , cursor.getString(titleIndex) ,
+                Task task=new Task(cursor.getString(titleIndex) ,
                         cursor.getInt(doneIndex)==1);
+                task.setId(cursor.getInt(idIndex));
                 tasks.add(task);
             }while (cursor.moveToNext());
         }
@@ -146,8 +147,9 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         //true if table is full
         if (cursor.moveToFirst()){
             do {
-                Task task=new Task(cursor.getInt(idIndex) , cursor.getString(titleIndex) ,
+                Task task=new Task( cursor.getString(titleIndex) ,
                         cursor.getInt(doneIndex)==1);
+                task.setId(cursor.getInt(idIndex));
                 tasks.add(task);
             }while (cursor.moveToNext());
         }

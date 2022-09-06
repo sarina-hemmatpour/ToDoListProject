@@ -14,10 +14,13 @@ import android.widget.EditText;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AddTaskDialog.SaveTaskCallBack  , EditTaskDialog.SaveEditCallBack {
 
-    private TaskDBHelper taskDBHelper;
+//    private TaskDBHelper taskDBHelper;
+    private TaskDao taskDao;
+
     private TaskAdapter adapter;
     private RecyclerView rvTaskList;
     private static final String TAG = "MainActivity";
@@ -28,17 +31,22 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Sav
         setContentView(R.layout.activity_main);
 
 
-        taskDBHelper=new TaskDBHelper(this);
+//        taskDBHelper=new TaskDBHelper(this);
+        taskDao=AppDataBase.getAppDataBase(this).getTaskDao();
 
 
         // ////////////////////////////////
+//        ArrayList<Task> allTasks=taskDBHelper.getTasks();
+        List<Task> allTasks= taskDao.getAll();
+
         rvTaskList=findViewById(R.id.rv_main_list);
         rvTaskList.setLayoutManager(new LinearLayoutManager(this , RecyclerView.VERTICAL , false));
-        adapter=new TaskAdapter(taskDBHelper.getTasks(), new TaskAdapter.TaskItemEventListener() {
+        adapter=new TaskAdapter(allTasks, new TaskAdapter.TaskItemEventListener() {
             @Override
             public void onCheckBoxClicked(Task task) {
                 task.setDone(!task.isDone()); //it edits the whole list!!!!!
-                int result=taskDBHelper.updateTask(task);
+//                int result=taskDBHelper.updateTask(task);
+                int result=taskDao.update(task);
 
 //                if (result>0)
 //                {
@@ -56,7 +64,9 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Sav
 
             @Override
             public void onDeleteButtonClicked(Task task) {
-                int result=taskDBHelper.deleteTask(task);
+//                int result=taskDBHelper.deleteTask(task);
+                int result=taskDao.delete(task);
+
                 if (result>0)
                 {
                     adapter.deleteTask(task);
@@ -78,7 +88,9 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Sav
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                taskDBHelper.clearAllTasks();
+//                taskDBHelper.clearAllTasks();
+                taskDao.deleteAll();
+
                 adapter.clearList();
             }
         });
@@ -96,12 +108,15 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Sav
 
                 if (etSearch.length()>0)
                 {
-                    ArrayList<Task> tasks=taskDBHelper.searchInTasks(etSearch.getText().toString().trim());
+//                    ArrayList<Task> tasks=taskDBHelper.searchInTasks(etSearch.getText().toString().trim());
+                    List<Task> tasks=taskDao.search(etSearch.getText().toString().trim());
+
                     adapter.setTasks(tasks);
                 }
                 else
                 {
-                    adapter.setTasks(taskDBHelper.getTasks());
+//                    adapter.setTasks(taskDBHelper.getTasks());
+                    adapter.setTasks(taskDao.getAll());
                 }
 
             }
@@ -116,7 +131,9 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Sav
 
     @Override
     public void onSaveCallBack(Task task) {
-        long id=taskDBHelper.addTask(task);
+//        long id=taskDBHelper.addTask(task);
+        long id=taskDao.add(task);
+
         if (id!=-1)
         {
             task.setId(id);
@@ -130,7 +147,9 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Sav
 
     @Override
     public void onSaveEditCallBack(Task task) {
-        int result=taskDBHelper.updateTask(task);
+//        int result=taskDBHelper.updateTask(task);
+        int result=taskDao.update(task);
+
         if (result>0)
         {
             adapter.editTask(task);

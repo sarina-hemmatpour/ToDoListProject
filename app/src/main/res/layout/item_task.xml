@@ -13,8 +13,9 @@
 
     <CheckBox
         android:id="@+id/chb_taskItem_task"
-        android:layout_width="350dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
         android:text="انجام تسک" />
 
     <ImageView

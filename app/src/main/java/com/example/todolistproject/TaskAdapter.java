@@ -14,13 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
-    private ArrayList<Task> tasks;
+    private List<Task> tasks;
     private TaskItemEventListener eventListener;
 
-    public TaskAdapter(ArrayList<Task> tasks ,TaskItemEventListener eventListener) {
+    public TaskAdapter(List<Task> tasks ,TaskItemEventListener eventListener) {
         this.tasks = tasks;
         this.eventListener=eventListener;
     }
@@ -100,7 +101,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setTasks(ArrayList<Task> tasks)
+    public void setTasks(List<Task> tasks)
     {
         this.tasks=tasks;
         notifyDataSetChanged();
